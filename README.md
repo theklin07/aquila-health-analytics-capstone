@@ -1,52 +1,86 @@
-# Aquila Health Network — Business Analytics Capstone
+# Aquila Health Network — Enterprise Business Analytics Capstone
 
-**Course:** MASY GC-4100 Applied Project Capstone, NYU  
-**Student:** Karen Lin  
-**Sponsor:** Dan Stone, Damark Group Inc.  
-**Project Period:** February 9 – May 5, 2026  
+**Optimizing Clinical Operations Through Enterprise Business Analytics at Aquila Health Network**
+NYU MS in Management & Systems — MASY GC-4100 Applied Project Capstone (Spring 2026)
+Karen Lin · Sponsor: Dan Stone, Damark Group, Inc.
 
----
+> Aquila Health Network is a fictional 40-clinic outpatient system built for this capstone. All data is
+> synthetic (~5,000 generated appointment records, scaled to a realistic 40-clinic / 200-provider
+> network) — no real patient, provider, or clinic data is used anywhere in this repo.
 
-## Project Overview
+An interactive write-up of these findings is here: **[Aquila Ledger](https://claude.ai/artifact/S8Mohe88NY44fUUEtCSJuz)**
 
-This capstone delivers a centralized business analytics platform for Aquila Health Network, a multi-state outpatient healthcare provider operating 40 clinics across the Northeast. The platform enables leadership to monitor clinical operations, optimize appointment utilization, and proactively manage patient access risk.
+## What this project does
 
----
+Aquila's leadership had no unified view of clinical operations — no-shows, provider utilization,
+referral follow-through, and patient wait times were all invisible across the network. This project
+builds a centralized analytics platform to close that gap:
 
-## Repository Contents
+1. **Requirements** — a sponsor-approved Functional Requirements Specification defining KPIs, data
+   requirements, and dashboard scope.
+2. **Data modeling** — a star-schema data mart (`FactAppointment` + five dimension tables) and a
+   5,000-row synthetic dataset generated to match it.
+3. **Dashboards** — five interactive Tableau dashboards: Clinical Operations, Revenue & Access,
+   Provider Utilization, Referral Performance, and No-Show Risk.
+4. **Predictive model** — a logistic regression proof-of-concept scoring appointments by no-show
+   probability (ROC-AUC 0.595), with documented assumptions and feature importance.
+5. **Delivery** — a final written report and sponsor presentation synthesizing findings and
+   recommendations.
 
-| File | Description |
-|------|-------------|
-| `Aquila_Synthetic_Dataset.xlsx` | Star schema data mart with 5 tables representing clinical operations data |
-| `Aquila_Capstone.twbx` | Tableau workbook containing 5 interactive dashboards |
-| `Aquila_NoShow_Predictive_Model.ipynb` | Jupyter notebook — logistic regression no-show risk model |
+## Key results
 
----
+| Metric | Value |
+|---|---|
+| Appointments modeled | 5,000 across 40 clinics / 200 providers |
+| Network no-show rate | 18.1% (vs. a 15%-reduction sponsor target) |
+| Average patient wait | 23.79 days (vs. a 19-day FRS target) |
+| Provider utilization | 51.3%–58.6% across all 8 specialties (target: 82%) |
+| Incomplete referrals | 384 of 1,500 (26%) — pending or never scheduled |
+| Predictive model | Logistic regression, ROC-AUC 0.595, recall 0.49 on no-shows |
 
-## Dashboards (Tableau)
+Full findings, recommendations, and the click-through explanation of every chart are in the
+[interactive case study](https://claude.ai/artifact/S8Mohe88NY44fUUEtCSJuz).
 
-1. **Clinical Operations Dashboard** — Network KPIs, appointment status, heat map by day/hour
-2. **Revenue & Access Dashboard** — Revenue by specialty, wait time by clinic, no-show by specialty
-3. **Provider Utilization Dashboard** — Utilization vs 82% target by provider and specialty
-4. **Referral Performance Dashboard** — Referral status and completion by specialty
-5. **No-Show Risk Dashboard** — Risk score distribution and ranked appointment list
+## Repo structure
 
----
+```
+aquila-health-analytics-capstone/
+├── README.md
+├── data/
+│   └── Aquila_Synthetic_Dataset.xlsx        # 6-table star-schema dataset (~5,000 appointments)
+├── notebooks/
+│   └── Aquila_NoShow_Predictive_Model.ipynb  # logistic regression model, Python / scikit-learn
+├── dashboards/
+│   └── Aquila_Capstone.twb                   # Tableau workbook (5 dashboards)
+├── presentation/
+│   └── Aquila_Capstone_Presentation.pdf       # final sponsor presentation
+└── docs/
+    ├── Project_Charter.docx
+    ├── Functional_Requirements_Specification.docx
+    ├── Project_Status_Report.pdf
+    ├── Annotated_Bibliography.docx
+    ├── Literature_Review.docx
+    └── WBS_Gantt.xlsx
+```
 
-## Predictive Model
+## Tech stack
 
-- **Algorithm:** Logistic Regression (balanced class weighting)
-- **Target:** Appointment no-show (binary classification)
-- **ROC-AUC:** 0.595
-- **Top Predictor:** Prior no-show history (coefficient 0.25)
-- **Key Finding:** Friday appointments have the highest no-show rate (20.9%); Wednesday the lowest (15.8%)
+- **Data modeling & generation:** star-schema dimensional design, Python (pandas)
+- **Dashboards:** Tableau Public — [live dashboards →](#) <!-- add published Tableau Public URL -->
+- **Predictive analytics:** Python, scikit-learn (`LogisticRegression`, balanced class weighting)
+- **Methodology:** CRISP-DM (business understanding → data understanding → data preparation →
+  modeling → evaluation)
 
----
+Tableau was substituted for Power BI mid-project (Power BI Desktop is Windows-only; development was
+on a MacBook) — approved by the project sponsor and documented in the Project Status Report.
 
-## Key Findings
+## Limitations
 
-- Network no-show rate: **18.1%** — exceeds the 15% reduction target threshold
-- All specialties below **82% provider utilization target**
-- Average patient wait time: **23.79 days** across all clinics
-- Paterson Community Clinic has the longest average wait at **26.15 days**
-- Primary Care has the highest no-show rate by specialty at **19.0%**
+This is an academic proof-of-concept, not a production system: the dataset is synthetic, the
+predictive model is a logistic-regression baseline (a Random Forest or XGBoost model would likely
+improve on its 0.595 ROC-AUC), and no live EHR integration exists. See `docs/Project_Charter.docx`
+for full scope and constraints.
+
+## Author
+
+**Karen Lin** — [portfolio](#) <!-- add portfolio URL --> · kn97na@gmail.com
